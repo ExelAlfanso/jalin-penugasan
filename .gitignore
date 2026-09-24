@@ -1,0 +1,13 @@
+# Dependencies and generated output
+node_modules/
+dist/
+.nuxt/
+.output/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Local secrets
+.env
+.env.*
+!.env.example
