@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalog:
+  primevue: ^5.0.1
+  vue: ^3.5.42

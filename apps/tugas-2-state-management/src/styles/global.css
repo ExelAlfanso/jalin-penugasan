@@ -1,0 +1,6 @@
+:root { font-family: Inter, system-ui, sans-serif; color: var(--p-text-color); background: var(--p-surface-50); color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 20rem; background: linear-gradient(180deg, #f6f4ff 0, var(--p-surface-50) 19rem); }
+button, input { font: inherit; }
+a { color: inherit; }
+.p-card { border: 1px solid var(--p-surface-200); box-shadow: 0 12px 32px rgb(55 45 100 / 6%); }
