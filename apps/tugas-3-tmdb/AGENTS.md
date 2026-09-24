@@ -11,6 +11,7 @@ Panduan ini berlaku untuk seluruh pekerjaan di direktori `apps/tugas-3-tmdb`.
 ## Desain dan implementasi
 
 - Gunakan palet utama `#FFFFFF` (putih), `#F5C518` (kuning), dan `#000000` (hitam). Nilai `#00000` pada permintaan awal ditafsirkan sebagai `#000000` karena kode hex lima digit tidak valid.
+- Gunakan PrimeVue dalam styled mode sebagai pustaka UI utama untuk kontrol dan status antarmuka. Gunakan Tailwind CSS hanya untuk penyesuaian ringan seperti grid, jarak, dan responsivitas; sesuaikan tema PrimeVue melalui preset.
 - Jaga kontras teks, status fokus keyboard, tata letak responsif, dan dukungan `prefers-reduced-motion` saat membuat antarmuka.
 - Untuk pekerjaan Vue, gunakan Composition API, `<script setup lang="ts">`, state sesedikit mungkin, nilai turunan dengan `computed`, serta kontrak props dan emits yang bertipe. Pisahkan komponen atau composable saat tanggung jawabnya sudah berbeda.
 - Gunakan skill `$frontend-design`, `$web-design-guidelines`, `$nuxt-skills:vue`, `$nuxt-skills:vue-best-practices`, dan `$nuxt-skills:vue-testing-best-practices` dalam alur pengembangan UI/Vue. Terapkan panduan desain sebelum implementasi, tinjau hasil UI dengan pedoman web, dan gunakan panduan pengujian saat menentukan atau menulis tes Vue.
