@@ -4,6 +4,7 @@ dist/
 .nuxt/
 .output/
 .turbo/
+.alchemy/
 coverage/
 *.tsbuildinfo
 

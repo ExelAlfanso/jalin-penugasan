@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "deploy:tmdb": "alchemy deploy",
     "lint": "turbo run lint",
     "lint:oxlint": "oxlint apps/tugas-1-vue-3-foundation --fix",
     "format": "prettier --write --experimental-cli apps/tugas-1-vue-3-foundation/src/",
@@ -16,6 +17,11 @@
     "test": "turbo run test:unit"
   },
   "devDependencies": {
+    "@effect/platform-bun": "4.0.0-rc.117",
+    "@effect/platform-node": "4.0.0-rc.117",
+    "alchemy": "2.0.0-beta.79",
+    "effect": "4.0.0-rc.117",
+    "@alchemy.run/frontend-frameworks": "2.0.0-beta.79",
     "oxlint": "~1.82.0",
     "prettier": "3.9.6",
     "turbo": "^2.0.0"
