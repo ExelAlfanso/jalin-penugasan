@@ -8,4 +8,7 @@ export default defineNuxtConfig({
   primevue: {
     importTheme: { from: '~/theme/movie.ts', as: 'MovieTheme' },
   },
+  runtimeConfig: {
+    tmdbApiKey: "",
+  },
 });
