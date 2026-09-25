@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Movie } from '../../types/movie'
-defineProps<{ movies: Movie[]; loading?: boolean }>()
+import type { MovieSummary } from '../../types/movie'
+defineProps<{ movies: MovieSummary[]; loading?: boolean; savedIds?: ReadonlySet<number> }>()
+const emit = defineEmits<{ watchlist: [movie: MovieSummary] }>()
 </script>
 
 <template>
@@ -12,6 +13,6 @@ defineProps<{ movies: Movie[]; loading?: boolean }>()
         <Skeleton width="55%" height="1rem" class="mt-2" />
       </div>
     </template>
-    <MovieCard v-for="(movie, index) in loading ? [] : movies" :key="movie.id" :movie="movie" :priority="index < 2" />
+    <MovieCard v-for="(movie, index) in loading ? [] : movies" :key="movie.id" :movie="movie" :priority="index < 2" :saved="savedIds?.has(movie.id)" @watchlist="emit('watchlist', movie)" />
   </div>
 </template>

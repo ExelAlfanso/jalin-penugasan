@@ -50,3 +50,22 @@ it('disables sign in when server configuration is missing', () => {
   expect(wrapper.get('button').attributes('disabled')).toBeDefined()
   expect(wrapper.text()).toContain('Google sign in is not configured')
 })
+
+it('returns to the protected page after Google sign in', async () => {
+  vi.stubGlobal('useAuth', () => ({
+    user: shallowRef(null), configured: shallowRef(true), ready: shallowRef(true), refresh: vi.fn().mockResolvedValue(null),
+  }))
+  vi.stubGlobal('useRoute', () => ({ query: { redirect: '/dashboard' } }))
+  vi.stubGlobal('useHead', () => {})
+
+  const wrapper = mount(LoginPage, {
+    global: { stubs: {
+      Button: { template: '<button @click="$emit(\'click\')">{{ label }}</button>', props: ['label'], emits: ['click'] },
+      Message: true,
+      NuxtLink: true,
+    } },
+  })
+  await wrapper.get('button').trigger('click')
+  await flushPromises()
+  expect(authClient.signIn.social).toHaveBeenCalledWith({ provider: 'google', callbackURL: '/dashboard' })
+})

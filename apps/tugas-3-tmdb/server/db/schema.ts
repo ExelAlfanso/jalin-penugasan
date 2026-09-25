@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, integer, real, primaryKey } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -70,4 +70,18 @@ export const verification = pgTable(
       .notNull(),
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
+);
+
+export const watchlist = pgTable(
+  "watchlist",
+  {
+    userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+    movieId: integer("movie_id").notNull(),
+    title: text("title").notNull(),
+    posterPath: text("poster_path"),
+    releaseDate: text("release_date").notNull(),
+    voteAverage: real("vote_average").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.movieId] })],
 );

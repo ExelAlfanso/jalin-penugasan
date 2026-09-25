@@ -7,6 +7,10 @@ export interface Movie {
   overview: string
 }
 
+export type MovieSummary = Pick<Movie, 'id' | 'title' | 'poster_path' | 'release_date' | 'vote_average'>
+
+export interface WatchlistEntry extends MovieSummary { added_at: string }
+
 export interface MoviePage {
   page: number
   results: Movie[]

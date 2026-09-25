@@ -26,6 +26,7 @@ useHead({ htmlAttrs: { lang: 'en' }, meta: [{ name: 'theme-color', content: '#ff
 <template>
   <a class="skip-link" href="#main">Skip to content</a>
   <NuxtRouteAnnouncer />
+  <Toast position="top-right" />
   <div class="min-h-screen flex flex-col">
     <header class="border-b border-black/15">
       <div class="mx-auto max-w-7xl px-5 py-4 sm:px-8 flex flex-wrap items-center justify-between gap-4">
@@ -33,6 +34,7 @@ useHead({ htmlAttrs: { lang: 'en' }, meta: [{ name: 'theme-color', content: '#ff
         <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold" aria-label="Main navigation">
           <NuxtLink to="/" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Films</NuxtLink>
           <template v-if="user">
+            <NuxtLink to="/dashboard" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Dashboard</NuxtLink>
             <span class="max-w-36 truncate text-black/65">{{ user.name }}</span>
             <Button label="Log out" text size="small" :loading="loggingOut" @click="signOut" />
           </template>
