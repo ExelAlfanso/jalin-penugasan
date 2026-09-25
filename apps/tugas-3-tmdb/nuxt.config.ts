@@ -5,6 +5,20 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "@primevue/nuxt-module"],
   css: ["~/assets/main.css"],
+  tailwindcss: {
+    cssPath: "~/assets/main.css",
+    config: {
+      theme: {
+        extend: {
+          colors: {
+            primary: "var(--color-primary)",
+            secondary: "var(--color-secondary)",
+            accent: "var(--color-accent)",
+          },
+        },
+      },
+    },
+  },
   primevue: {
     importTheme: { from: '~/theme/movie.ts', as: 'MovieTheme' },
   },
