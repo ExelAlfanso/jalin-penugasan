@@ -17,6 +17,6 @@ GOOGLE_CLIENT_SECRET=
 
 Use a random secret of at least 32 characters for `BETTER_AUTH_SECRET`. In Google Cloud Console, configure the OAuth web application's authorized redirect URI as `http://localhost:3000/api/auth/callback/google`. Use the deployed origin instead of localhost in production.
 
-Apply the included auth migration with `pnpm exec drizzle-kit migrate`, then start the app with `pnpm dev`. Run `pnpm test`, `pnpm exec nuxt typecheck`, and `pnpm build` to verify changes.
+Apply the included auth migration with `pnpm db:migrate`, then start the app with `pnpm dev`. Run `pnpm test`, `pnpm exec nuxt typecheck`, and `pnpm build` to verify changes.
 
 TMDB data is fetched only by Nuxt server routes. Google and database credentials stay on the server.
