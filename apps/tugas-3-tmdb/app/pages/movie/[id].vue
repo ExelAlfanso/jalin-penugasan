@@ -56,7 +56,7 @@
     </div>
     <template v-else>
       <p v-if="watchlistError" class="mx-auto max-w-7xl px-5 text-red-700 sm:px-8" role="alert">{{ watchlistError }}</p>
-      <MovieInformation :movie="movie" :saved="savedIds.has(movie.id)" :saving="busyId === movie.id" @trailer="trailerOpen = true" @watchlist="toggle(movie.id)" />
+      <MovieInformation :movie="movie" :saved="savedIds.has(movie.id)" :saving="busyId === movie.id" @trailer="trailerOpen = true" @watchlist="toggle(movie)" />
       <TrailerDialog v-model="trailerOpen" :trailer="movie.trailer" :title="movie.title" />
     </template>
   </main>

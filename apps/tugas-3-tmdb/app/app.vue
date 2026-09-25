@@ -26,6 +26,7 @@ useHead({ htmlAttrs: { lang: 'en' }, meta: [{ name: 'theme-color', content: '#ff
 <template>
   <a class="skip-link" href="#main">Skip to content</a>
   <NuxtRouteAnnouncer />
+  <Toast position="top-right" />
   <div class="min-h-screen flex flex-col">
     <header class="border-b border-black/15">
       <div class="mx-auto max-w-7xl px-5 py-4 sm:px-8 flex flex-wrap items-center justify-between gap-4">
