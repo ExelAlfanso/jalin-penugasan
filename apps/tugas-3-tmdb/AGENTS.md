@@ -17,6 +17,11 @@ Panduan ini berlaku untuk seluruh pekerjaan di direktori `apps/tugas-3-tmdb`.
 - Gunakan skill `$frontend-design`, `$web-design-guidelines`, `$nuxt-skills:vue`, `$nuxt-skills:vue-best-practices`, dan `$nuxt-skills:vue-testing-best-practices` dalam alur pengembangan UI/Vue. Terapkan panduan desain sebelum implementasi, tinjau hasil UI dengan pedoman web, dan gunakan panduan pengujian saat menentukan atau menulis tes Vue.
 - Saat memakai `$web-design-guidelines` untuk review, ambil pedoman terbaru dari URL yang ditentukan skill sebelum memeriksa berkas.
 
+## Penggunaan Ponytail dan Caveman
+
+- Untuk tugas coding atau review kode, gunakan `$ponytail:ponytail`. Pahami konteks dan alur yang terdampak terlebih dahulu, lalu pilih solusi terkecil yang benar. Utamakan pola yang sudah ada, pustaka standar, fitur platform, dan dependensi yang sudah terpasang; hindari abstraksi, dependensi baru, dan boilerplate tanpa kebutuhan. Jangan mengorbankan keamanan, validasi, aksesibilitas, atau penanganan error demi mengurangi perubahan.
+- Gunakan `$caveman` untuk jawaban percakapan yang ringkas saat pengguna meminta gaya tersebut atau meminta jawaban lebih singkat. Pertahankan bahasa pengguna dan akurasi teknis. Untuk berkas permanen seperti kode, komentar, dokumentasi, dan pesan commit, gunakan bahasa normal yang jelas.
+
 ## Pemilihan model
 
 Pilih model dan reasoning effort berikut bila lingkungan mendukung pemilihan model untuk pekerjaan tersebut. Klasifikasikan cakupan sebelum mulai; bila model tidak dapat diganti dalam sesi aktif, lanjutkan dengan model yang tersedia dan jangan menghambat pekerjaan.

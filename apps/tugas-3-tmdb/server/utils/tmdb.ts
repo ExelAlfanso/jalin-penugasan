@@ -1,6 +1,9 @@
 import { createError } from 'h3'
 
-export async function tmdb<T>(path: string, params: Record<string, string | number> = {}): Promise<T> {
+export async function tmdb<T>(
+  path: string,
+  params: Record<string, string | number> = {},
+): Promise<T> {
   const key = useRuntimeConfig().tmdbApiKey
   if (!key) throw createError({ statusCode: 503, statusMessage: 'TMDB key is not configured.' })
   try {

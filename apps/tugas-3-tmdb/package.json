@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "db:migrate": "drizzle-kit migrate",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -11,22 +12,29 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxtjs/tailwindcss": "6.14.0",
+    "@better-auth/drizzle-adapter": "1.7.5",
     "@pinia/nuxt": "1.0.2",
     "@primeuix/themes": "^2.0.3",
+    "@tailwindcss/vite": "^4.3.3",
     "@vueform/nuxt": "^1.31.0",
+    "better-auth": "^1.7.5",
+    "drizzle-orm": "1.0.0-rc.4",
     "nuxt": "^4.5.2",
+    "pg": "^8.23.0",
     "pinia": "^4.0.3",
     "primevue": "catalog:",
-    "tailwindcss": "3.4.19",
+    "tailwindcss": "4.3.3",
     "vue": "^3.5.43",
     "vue-router": "^5.3.1"
   },
   "devDependencies": {
     "@primevue/nuxt-module": "^5.0.1",
+    "@types/pg": "^8.23.1",
     "@vitejs/plugin-vue": "^6.0.9",
     "@vue/test-utils": "^2.5.1",
+    "drizzle-kit": "1.0.0-rc.4",
     "happy-dom": "^20.14.5",
+    "tsx": "^4.23.15",
     "vitest": "^4.1.11"
   }
 }

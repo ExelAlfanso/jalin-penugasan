@@ -1,75 +1,22 @@
-# Nuxt Minimal Starter
+# Frame
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Nuxt film catalogue powered by TMDB. Sign in uses Google through Better Auth; PostgreSQL stores auth data through Drizzle.
 
-## Setup
+## Local setup
 
-Make sure to install dependencies:
+Install dependencies with `pnpm install`. Create `.env` in this directory with these server-side values:
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```dotenv
+NUXT_TMDB_API_KEY=
+DATABASE_URL=postgres://user:password@localhost:5432/frame
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
 
-## Development Server
+Use a random secret of at least 32 characters for `BETTER_AUTH_SECRET`. In Google Cloud Console, configure the OAuth web application's authorized redirect URI as `http://localhost:3000/api/auth/callback/google`. Use the deployed origin instead of localhost in production.
 
-Start the development server on `http://localhost:3000`:
+Apply the included auth migration with `pnpm db:migrate`, then start the app with `pnpm dev`. Run `pnpm test`, `pnpm exec nuxt typecheck`, and `pnpm build` to verify changes.
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+TMDB data is fetched only by Nuxt server routes. Google and database credentials stay on the server.
