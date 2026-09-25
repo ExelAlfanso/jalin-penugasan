@@ -11,8 +11,8 @@ async function signOut() {
   loggingOut.value = true
   logoutError.value = ''
   try {
-    const result = await logout()
-    await navigateTo(result.remoteSessionRevoked ? '/login' : '/login?warning=revocation')
+    await logout()
+    await navigateTo('/')
   } catch {
     logoutError.value = 'Could not sign out. Please try again.'
   } finally {
@@ -33,8 +33,7 @@ useHead({ htmlAttrs: { lang: 'en' }, meta: [{ name: 'theme-color', content: '#ff
         <nav class="flex flex-wrap items-center gap-4 text-sm font-semibold" aria-label="Main navigation">
           <NuxtLink to="/" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Films</NuxtLink>
           <template v-if="user">
-            <NuxtLink to="/dashboard" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Dashboard</NuxtLink>
-            <NuxtLink to="/watchlist" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Watchlist</NuxtLink>
+            <span class="max-w-36 truncate text-black/65">{{ user.name }}</span>
             <Button label="Log out" text size="small" :loading="loggingOut" @click="signOut" />
           </template>
           <NuxtLink v-else to="/login" class="hover:underline decoration-[#f5c518] decoration-2 underline-offset-4">Sign in</NuxtLink>

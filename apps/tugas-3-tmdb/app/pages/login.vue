@@ -1,17 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { onMounted, shallowRef } from 'vue'
+import { authClient } from '../lib/auth-client'
 
 const route = useRoute()
-const { user } = useAuth()
-const redirect = computed(() => route.query.redirect === '/watchlist' ? '/watchlist' : '/dashboard')
-const startUrl = computed(() => `/api/auth/start?redirect=${encodeURIComponent(redirect.value)}`)
-const errorMessage = computed(() => {
-  if (route.query.error === 'denied') return 'TMDB sign in was not completed. Please try again.'
-  if (route.query.error === 'unavailable') return 'TMDB is unavailable or not configured. Please try again later.'
-  return ''
+const { user, configured, ready, refresh } = useAuth()
+const pending = shallowRef(false)
+const errorMessage = shallowRef('')
+
+onMounted(() => {
+  refresh().catch(() => { errorMessage.value = 'Sign in is unavailable. Please try again.' })
 })
 
-useHead({ title: 'Sign In | Frame', meta: [{ name: 'description', content: 'Connect your TMDB account to access your Frame dashboard and watchlist.' }] })
+async function signIn() {
+  pending.value = true
+  errorMessage.value = ''
+  try {
+    const result = await authClient.signIn.social({ provider: 'google', callbackURL: '/' })
+    if (result.error) errorMessage.value = 'Google sign in could not start. Please try again.'
+  } catch {
+    errorMessage.value = 'Google sign in could not start. Please try again.'
+  } finally {
+    pending.value = false
+  }
+}
+
+useHead({ title: 'Sign In | Frame', meta: [{ name: 'description', content: 'Sign in to Frame with Google.' }] })
 </script>
 
 <template>
@@ -19,21 +32,21 @@ useHead({ title: 'Sign In | Frame', meta: [{ name: 'description', content: 'Conn
     <section class="flex min-h-[26rem] flex-col justify-between bg-black p-8 text-white sm:p-12">
       <span class="text-sm font-semibold tracking-wide text-[#f5c518]">Frame</span>
       <div>
-        <h1 class="max-w-xl text-5xl font-bold leading-none text-balance sm:text-7xl">Keep your next film close.</h1>
+        <h1 class="max-w-xl text-5xl font-bold leading-none text-balance sm:text-7xl">Good films start here.</h1>
         <div class="mt-8 h-1 w-24 bg-[#f5c518]" aria-hidden="true" />
-        <p class="mt-8 max-w-md text-lg text-white/75">Sign in with TMDB to open your dashboard and watchlist.</p>
+        <p class="mt-8 max-w-md text-lg text-white/75">Sign in to your Frame account with Google. Explore films powered by TMDB.</p>
       </div>
     </section>
     <section class="flex flex-col justify-center border border-black/15 p-8 sm:p-12" aria-labelledby="sign-in-heading">
       <h2 id="sign-in-heading" class="text-4xl font-bold">Sign in</h2>
-      <p class="mt-3 max-w-sm text-black/65">You will continue on TMDB to approve access to your account.</p>
-      <Message v-if="errorMessage" severity="error" class="mt-8" role="alert">{{ errorMessage }}</Message>
-      <Message v-if="route.query.warning === 'revocation'" severity="warn" class="mt-8" role="alert">You are signed out here, but TMDB could not confirm the session was revoked. Review your TMDB account security settings.</Message>
+      <p class="mt-3 max-w-sm text-black/65">Continue with your Google account.</p>
+      <Message v-if="route.query.error || errorMessage" severity="error" class="mt-8" role="alert">{{ errorMessage || 'Google sign in was not completed. Please try again.' }}</Message>
+      <Message v-else-if="ready && !configured" severity="warn" class="mt-8" role="status">Google sign in is not configured on this server. Add the Google and database settings, then try again.</Message>
       <div class="mt-8">
-        <NuxtLink v-if="user" to="/dashboard" class="font-semibold underline decoration-[#f5c518] decoration-4 underline-offset-4">Go to dashboard</NuxtLink>
-        <Button v-else as="a" :href="startUrl" label="Continue with TMDB" class="w-full sm:w-auto" />
+        <NuxtLink v-if="user" to="/" class="font-semibold underline decoration-[#f5c518] decoration-4 underline-offset-4">Browse films</NuxtLink>
+        <Button v-else label="Continue with Google" :loading="pending" :disabled="!ready || !configured" class="w-full sm:w-auto" @click="signIn" />
       </div>
-      <p class="mt-8 text-sm text-black/55">Your TMDB password is entered only on TMDB.</p>
+      <p class="mt-8 text-sm text-black/55">Your Google password stays with Google.</p>
     </section>
   </main>
 </template>
