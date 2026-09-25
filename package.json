@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "deploy:tmdb": "alchemy deploy --env-file apps/tugas-3-tmdb/.env",
+    "deploy:tmdb": "alchemy deploy --env-file apps/tugas-3-tmdb/.env.prod",
     "lint": "turbo run lint",
     "lint:oxlint": "oxlint apps/tugas-1-vue-3-foundation --fix",
     "format": "prettier --write --experimental-cli apps/tugas-1-vue-3-foundation/src/",

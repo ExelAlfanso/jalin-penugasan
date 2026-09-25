@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "db:migrate": "drizzle-kit migrate",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --dotenv .env.local",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "test": "vitest run",

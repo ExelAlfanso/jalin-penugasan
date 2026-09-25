@@ -4,7 +4,7 @@ A Nuxt film catalogue powered by TMDB. Sign in uses Google through Better Auth; 
 
 ## Local setup
 
-Install dependencies with `pnpm install`. Create `.env` in this directory with these server-side values:
+Install dependencies with `pnpm install`. Create `.env.local` in this directory with these server-side values (see `.env.example`):
 
 ```dotenv
 NUXT_TMDB_API_KEY=
@@ -17,6 +17,8 @@ GOOGLE_CLIENT_SECRET=
 
 Use a random secret of at least 32 characters for `BETTER_AUTH_SECRET`. In Google Cloud Console, configure the OAuth web application's authorized redirect URI as `http://localhost:3000/api/auth/callback/google`. Use the deployed origin instead of localhost in production.
 
-Apply the included migrations with `pnpm db:migrate`, then start the app with `pnpm dev`. Signed-in users can save films from the catalogue or detail page and manage them at `/dashboard`. Run `pnpm test`, `pnpm exec nuxt typecheck`, and `pnpm build` to verify changes.
+Apply the included migrations with `pnpm db:migrate`, then start the app with `pnpm dev`. The dev script loads `.env.local`. Signed-in users can save films from the catalogue or detail page and manage them at `/dashboard`. Run `pnpm test`, `pnpm exec nuxt typecheck`, and `pnpm build` to verify changes.
+
+For Cloudflare, create a separate ignored `.env.prod` with the same keys. Set `BETTER_AUTH_URL=https://tmdb.alfanso.xyz` and register `https://tmdb.alfanso.xyz/api/auth/callback/google` in Google Cloud Console. Run `pnpm deploy:tmdb` from the repository root; Alchemy loads `.env.prod` and binds its values to the Worker. `DATABASE_URL` must point to a PostgreSQL server reachable from Cloudflare, not `localhost`. Run production migrations against that database before enabling sign-in.
 
 TMDB data is fetched only by Nuxt server routes. Google and database credentials stay on the server.
