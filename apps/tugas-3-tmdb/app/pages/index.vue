@@ -14,6 +14,7 @@ const page = computed(() => {
 const params = computed(() => ({ ...(query.value ? { q: query.value } : genre.value ? { genre: genre.value } : {}), page: page.value }))
 const { data: movies, pending, error, refresh } = await useFetch<MoviePage>('/api/movies', { query: params, watch: [params] })
 const { data: genres, error: genreError, refresh: refreshGenres } = await useFetch<Genre[]>('/api/genres')
+const { savedIds, busyId, error: watchlistError, toggle } = useWatchlist()
 const heading = computed(() => query.value ? `Search results for “${query.value}”` : genre.value ? `${genres.value?.find(item => item.id === genre.value)?.name ?? 'Genre'} films` : 'Popular films')
 const errorText = computed(() => (error.value?.statusCode === 503 || genreError.value?.statusCode === 503) ? 'TMDB is not configured. Add NUXT_TMDB_API_KEY to the server environment and try again.' : 'Films could not be loaded. Please try again.')
 
@@ -32,6 +33,7 @@ useHead({ title: 'Popular Films | Frame', meta: [{ name: 'description', content:
       <p class="mt-4 max-w-xl text-black/65">Find your next film by title or genre.</p>
     </div>
     <MovieFilters :query="query" :genre="genre" :genres="genres ?? []" :busy="pending" @search="search" @genre="selectGenre" />
+    <p v-if="watchlistError" class="mt-6 text-red-700" role="alert">{{ watchlistError }}</p>
     <div class="mt-10" role="status" aria-live="polite">
       <p v-if="pending" class="sr-only">Loading films…</p>
       <div v-else-if="error || genreError" class="border border-black/20 bg-[#fafafa] p-6">
@@ -46,7 +48,7 @@ useHead({ title: 'Popular Films | Frame', meta: [{ name: 'description', content:
         <p class="mb-5 text-sm text-black/65 tabular">{{ movies.total_results.toLocaleString('en-US') }} films</p>
       </template>
     </div>
-    <MovieGrid v-if="pending || (movies?.results.length && !error && !genreError)" :movies="movies?.results ?? []" :loading="pending" />
+    <MovieGrid v-if="pending || (movies?.results.length && !error && !genreError)" :movies="movies?.results ?? []" :loading="pending" :saved-ids="savedIds" :busy-id="busyId" @watchlist="toggle" />
     <Paginator v-if="!pending && !error && movies && movies.total_pages > 1" class="mt-12" :first="(page - 1) * 20" :rows="20" :total-records="Math.min(movies.total_results, 10000)" @page="changePage" />
   </main>
 </template>

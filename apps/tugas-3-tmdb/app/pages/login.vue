@@ -1,8 +1,12 @@
 <script setup lang="ts">
-  import { onMounted, shallowRef } from "vue";
+  import { computed, onMounted, shallowRef } from "vue";
   import { authClient } from "../lib/auth-client";
 
   const route = useRoute();
+  const redirect = computed(() => {
+    const value = route.query.redirect;
+    return typeof value === "string" && value.startsWith("/") && !value.startsWith("//") && !value.includes("\\") ? value : "/";
+  });
   const { user, configured, ready, refresh } = useAuth();
   const pending = shallowRef(false);
   const errorMessage = shallowRef("");
@@ -17,7 +21,7 @@
     pending.value = true;
     errorMessage.value = "";
     try {
-      const result = await authClient.signIn.social({ provider: "google", callbackURL: "/" });
+      const result = await authClient.signIn.social({ provider: "google", callbackURL: redirect.value });
       if (result.error) errorMessage.value = "Google sign in could not start. Please try again.";
     } catch {
       errorMessage.value = "Google sign in could not start. Please try again.";
@@ -71,7 +75,7 @@
       <div class="mt-8">
         <NuxtLink
           v-if="user"
-          to="/"
+          :to="redirect"
           class="font-semibold underline decoration-[#f5c518] decoration-4 underline-offset-4"
           >Browse films</NuxtLink
         >

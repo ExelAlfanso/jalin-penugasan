@@ -11,6 +11,7 @@
     refresh,
   } = await useFetch<MovieDetail>(() => `/api/movies/${id.value}`, { watch: [id] });
   const trailerOpen = shallowRef(false);
+  const { savedIds, busyId, error: watchlistError, toggle } = useWatchlist();
   const errorText = computed(() =>
     error.value?.statusCode === 404
       ? "Movie not found. Check the link or browse other films."
@@ -54,7 +55,8 @@
       <Button v-if="error?.statusCode !== 404" class="mt-5" label="Try Again" @click="refresh()" />
     </div>
     <template v-else>
-      <MovieInformation :movie="movie" @trailer="trailerOpen = true" />
+      <p v-if="watchlistError" class="mx-auto max-w-7xl px-5 text-red-700 sm:px-8" role="alert">{{ watchlistError }}</p>
+      <MovieInformation :movie="movie" :saved="savedIds.has(movie.id)" :saving="busyId === movie.id" @trailer="trailerOpen = true" @watchlist="toggle(movie.id)" />
       <TrailerDialog v-model="trailerOpen" :trailer="movie.trailer" :title="movie.title" />
     </template>
   </main>
