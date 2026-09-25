@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from "node:url";
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: "2025-07-15",
@@ -14,5 +15,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     tmdbApiKey: "",
+  },
+  nitro: {
+    alias: {
+      // pg-native is optional; Workers use pg's pure JavaScript driver.
+      "pg-native": fileURLToPath(new URL("./server/utils/pg-native-stub.ts", import.meta.url)),
+    },
   },
 });
