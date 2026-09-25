@@ -24,7 +24,7 @@ const score = computed(() => Number.isFinite(props.movie.vote_average) ? props.m
     <Button
       class="!absolute !right-2 !top-2 !z-10 !size-10 !min-w-10 !rounded-none !border !border-black !p-0 !text-2xl !font-semibold !text-black hover:!bg-accent"
       :class="saved ? '!bg-accent' : '!bg-white'"
-      :label="saved ? '−' : '+'"
+      :label="saving ? undefined : saved ? '−' : '+'"
       :aria-label="`${saved ? 'Remove' : 'Add'} ${movie.title} ${saved ? 'from' : 'to'} watchlist`"
       :aria-pressed="saved"
       :loading="saving"
