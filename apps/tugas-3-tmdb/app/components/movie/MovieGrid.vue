@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { MovieSummary } from '../../types/movie'
-defineProps<{ movies: MovieSummary[]; loading?: boolean; savedIds?: ReadonlySet<number>; busyId?: number | null }>()
+defineProps<{ movies: MovieSummary[]; loading?: boolean; savedIds?: ReadonlySet<number> }>()
 const emit = defineEmits<{ watchlist: [movie: MovieSummary] }>()
 </script>
 
@@ -13,6 +13,6 @@ const emit = defineEmits<{ watchlist: [movie: MovieSummary] }>()
         <Skeleton width="55%" height="1rem" class="mt-2" />
       </div>
     </template>
-    <MovieCard v-for="(movie, index) in loading ? [] : movies" :key="movie.id" :movie="movie" :priority="index < 2" :saved="savedIds?.has(movie.id)" :saving="busyId === movie.id" @watchlist="emit('watchlist', movie)" />
+    <MovieCard v-for="(movie, index) in loading ? [] : movies" :key="movie.id" :movie="movie" :priority="index < 2" :saved="savedIds?.has(movie.id)" @watchlist="emit('watchlist', movie)" />
   </div>
 </template>

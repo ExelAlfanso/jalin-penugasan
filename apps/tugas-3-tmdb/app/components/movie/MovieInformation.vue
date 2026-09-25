@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { MovieDetail } from '../../types/movie'
-const props = defineProps<{ movie: MovieDetail; saved?: boolean; saving?: boolean }>()
+const props = defineProps<{ movie: MovieDetail; saved?: boolean }>()
 const emit = defineEmits<{ trailer: []; watchlist: [] }>()
 const year = computed(() => props.movie.release_date?.slice(0, 4) || 'Year unknown')
 const runtime = computed(() => props.movie.runtime ? `${Math.floor(props.movie.runtime / 60)}h ${props.movie.runtime % 60}m` : 'Runtime unknown')
@@ -25,7 +25,7 @@ const runtime = computed(() => props.movie.runtime ? `${Math.floor(props.movie.r
           <p class="mt-5 font-semibold tabular"><span aria-hidden="true" class="text-[#9c7900]">★</span> {{ movie.vote_average.toFixed(1) }} <span class="font-normal text-black/60">/ 10 TMDB</span></p>
           <div class="mt-6 flex flex-wrap gap-3">
             <Button label="Watch Trailer" @click="emit('trailer')" />
-            <Button :label="saved ? 'Remove from watchlist' : 'Add to watchlist'" :outlined="!saved" :severity="saved ? 'secondary' : undefined" :loading="saving" @click="emit('watchlist')" />
+            <Button :label="saved ? 'Remove from watchlist' : 'Add to watchlist'" :outlined="!saved" :severity="saved ? 'secondary' : undefined" @click="emit('watchlist')" />
           </div>
           <section class="mt-12 max-w-2xl">
             <h2 class="text-3xl font-semibold">Overview</h2>

@@ -35,11 +35,35 @@ it('shows an added movie immediately, then confirms it with a toast', async () =
 
   const pending = watchlist.toggle(movie)
   expect(watchlist.savedIds.value.has(movie.id)).toBe(true)
-  expect(watchlist.busyId.value).toBe(movie.id)
   finishPost(entry)
   await pending
   expect(watchlist.entries.value).toEqual([entry])
   expect(addToast).toHaveBeenCalledWith(expect.objectContaining({ severity: 'success', summary: 'Added to watchlist' }))
+  wrapper.unmount()
+})
+
+it('accepts a second click immediately and sends requests in order', async () => {
+  let finishPost!: (saved: WatchlistEntry) => void
+  const post = new Promise<WatchlistEntry>(resolve => { finishPost = resolve })
+  const fetch = vi.fn((url: string, options?: { method?: string }) => {
+    if (url === '/api/watchlist') return Promise.resolve([])
+    return options?.method === 'POST' ? post : Promise.resolve({ id: movie.id })
+  })
+  vi.stubGlobal('$fetch', fetch)
+  const wrapper = mount(Host)
+  await flushPromises()
+
+  const adding = watchlist.toggle(movie)
+  expect(watchlist.savedIds.value.has(movie.id)).toBe(true)
+  const removing = watchlist.toggle(movie)
+  expect(watchlist.savedIds.value.has(movie.id)).toBe(false)
+  expect(fetch.mock.calls.filter(([url]) => url === `/api/watchlist/${movie.id}`)).toHaveLength(1)
+  finishPost(entry)
+  await Promise.all([adding, removing])
+  expect(fetch.mock.calls.filter(([url]) => url === `/api/watchlist/${movie.id}`)).toHaveLength(2)
+  expect(watchlist.savedIds.value.has(movie.id)).toBe(false)
+  expect(addToast).toHaveBeenCalledOnce()
+  expect(addToast).toHaveBeenCalledWith(expect.objectContaining({ summary: 'Removed from watchlist' }))
   wrapper.unmount()
 })
 

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 definePageMeta({ middleware: 'authenticated' })
 
-const { entries, savedIds, loading, busyId, error, refresh, toggle } = useWatchlist()
+const { entries, savedIds, loading, error, refresh, toggle } = useWatchlist()
 const count = computed(() => `${entries.value.length} ${entries.value.length === 1 ? 'film' : 'films'}`)
 
 useHead({ title: 'My Watchlist | Frame', meta: [{ name: 'description', content: 'Your saved films on Frame.' }] })
@@ -29,7 +29,7 @@ useHead({ title: 'My Watchlist | Frame', meta: [{ name: 'description', content: 
     </div>
     <template v-else>
       <p class="mb-5 text-sm text-black/65">{{ count }}</p>
-      <MovieGrid :movies="entries" :saved-ids="savedIds" :busy-id="busyId" @watchlist="toggle" />
+      <MovieGrid :movies="entries" :saved-ids="savedIds" @watchlist="toggle" />
     </template>
   </main>
 </template>
