@@ -5,3 +5,8 @@ packages:
 catalog:
   primevue: ^5.0.1
   vue: ^3.5.42
+
+packageExtensions:
+  '@primevue/core@4.5.5':
+    dependencies:
+      '@primeuix/styles': 2.0.3
