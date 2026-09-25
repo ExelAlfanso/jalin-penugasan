@@ -40,13 +40,16 @@ it('offers a watchlist action separate from the movie link', async () => {
     props: { movie: { id: 7, title: 'A Film', poster_path: null, release_date: '2024-01-01', vote_average: 8 }, saved: false },
     global: { stubs: {
       NuxtLink: { template: '<a :href="to"><slot /></a>', props: ['to'] },
-      Button: { template: '<button @click="$emit(\'click\')">{{ label }}</button>', props: ['label'], emits: ['click'] },
+      Button: { template: '<button :aria-label="$attrs[\'aria-label\']" :aria-pressed="$attrs[\'aria-pressed\']" @click="$emit(\'click\')">{{ label }}</button>', props: ['label'], emits: ['click'] },
     } },
   })
   expect(wrapper.find('a').attributes('href')).toBe('/movie/7')
   expect(wrapper.find('a button').exists()).toBe(false)
+  expect(wrapper.get('button').text()).toBe('+')
+  expect(wrapper.get('button').attributes('aria-label')).toBe('Add A Film to watchlist')
   await wrapper.get('button').trigger('click')
   expect(wrapper.emitted('watchlist')).toHaveLength(1)
   await wrapper.setProps({ saved: true })
-  expect(wrapper.get('button').text()).toBe('Remove from watchlist')
+  expect(wrapper.get('button').text()).toBe('−')
+  expect(wrapper.get('button').attributes('aria-label')).toBe('Remove A Film from watchlist')
 })
