@@ -15,6 +15,11 @@ export default Alchemy.Stack(
       domain: "tmdb.alfanso.xyz",
       env: {
         NUXT_TMDB_API_KEY: Config.Redacted("NUXT_TMDB_API_KEY"),
+        DATABASE_URL: Config.Redacted("DATABASE_URL"),
+        BETTER_AUTH_SECRET: Config.Redacted("BETTER_AUTH_SECRET"),
+        BETTER_AUTH_URL: Config.String("BETTER_AUTH_URL"),
+        GOOGLE_CLIENT_ID: Config.Redacted("GOOGLE_CLIENT_ID"),
+        GOOGLE_CLIENT_SECRET: Config.Redacted("GOOGLE_CLIENT_SECRET"),
       },
     });
 

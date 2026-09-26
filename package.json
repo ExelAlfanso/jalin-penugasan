@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "db:migrate": "pnpm --filter tugas-3-tmdb db:migrate",
     "deploy:tmdb": "alchemy deploy --env-file apps/tugas-3-tmdb/.env.prod",
     "lint": "turbo run lint",
     "lint:oxlint": "oxlint apps/tugas-1-vue-3-foundation --fix",
