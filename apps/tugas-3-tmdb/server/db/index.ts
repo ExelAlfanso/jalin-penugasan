@@ -1,6 +1,12 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
-import { Pool } from 'pg'
+import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres'
+import { Client } from 'pg'
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-
-export const db = drizzle({ client: pool })
+export async function withDb<T>(run: (db: NodePgDatabase) => Promise<T>): Promise<T> {
+  const client = new Client({ connectionString: process.env.DATABASE_URL })
+  try {
+    await client.connect()
+    return await run(drizzle({ client }))
+  } finally {
+    await client.end()
+  }
+}

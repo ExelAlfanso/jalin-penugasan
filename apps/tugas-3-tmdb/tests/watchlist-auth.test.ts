@@ -3,7 +3,8 @@ import { beforeEach, expect, it, vi } from 'vitest'
 const getSession = vi.fn()
 const isAuthConfigured = vi.fn(() => true)
 
-vi.mock('../server/auth', () => ({ auth: { api: { getSession } } }))
+vi.mock('../server/auth', () => ({ createAuth: () => ({ api: { getSession } }) }))
+vi.mock('../server/db', () => ({ withDb: (run: (db: object) => Promise<unknown>) => run({}) }))
 vi.mock('../server/utils/auth-config', () => ({ isAuthConfigured }))
 
 beforeEach(() => {

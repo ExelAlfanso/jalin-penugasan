@@ -1,4 +1,5 @@
 import { isAuthConfigured } from '../utils/auth-config'
+import { withDb } from '../db'
 
 export default defineEventHandler(async (event) => {
   const path = getRequestURL(event).pathname
@@ -7,8 +8,8 @@ export default defineEventHandler(async (event) => {
   setHeader(event, 'Cache-Control', 'private, no-store')
   if (!isAuthConfigured()) throw createError({ statusCode: 503, statusMessage: 'Sign in is not configured.' })
 
-  const { auth } = await import('../auth')
-  const session = await auth.api.getSession({ headers: event.headers })
+  const { createAuth } = await import('../auth')
+  const session = await withDb((db) => createAuth(db).api.getSession({ headers: event.headers }))
   if (!session?.user) throw createError({ statusCode: 401, statusMessage: 'Sign in required.' })
   event.context.watchlistUserId = session.user.id
 })
